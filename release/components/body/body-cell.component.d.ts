@@ -17,6 +17,8 @@ export declare class DataTableBodyCellComponent implements DoCheck, OnDestroy {
     readonly columnCssClasses: any;
     readonly width: number;
     readonly height: string | number;
+    readonly color: string;
+    readonly backgroundColor: string;
     sanitizedValue: any;
     value: any;
     sortDir: SortDirection;

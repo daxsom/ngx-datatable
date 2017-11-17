@@ -191,6 +191,62 @@ var DataTableBodyCellComponent = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(DataTableBodyCellComponent.prototype, "color", {
+        get: function () {
+            /*
+             {
+             color: 'red',
+             test: true
+             }
+             */
+            var color = '';
+            if (typeof this.column.cellColor === 'function') {
+                var res = this.column.cellColor({
+                    row: this.row,
+                    group: this.group,
+                    column: this.column,
+                    value: this.value,
+                    rowHeight: this.rowHeight
+                });
+                if (typeof res === 'object') {
+                    if (res.test) {
+                        color = res.color;
+                    }
+                }
+            }
+            return color;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DataTableBodyCellComponent.prototype, "backgroundColor", {
+        get: function () {
+            /*
+             {
+             color: 'red',
+             test: true
+             }
+             */
+            var color = '';
+            if (typeof this.column.cellColorBG === 'function') {
+                var res = this.column.cellColorBG({
+                    row: this.row,
+                    group: this.group,
+                    column: this.column,
+                    value: this.value,
+                    rowHeight: this.rowHeight
+                });
+                if (typeof res === 'object') {
+                    if (res.test) {
+                        color = res.color;
+                    }
+                }
+            }
+            return color;
+        },
+        enumerable: true,
+        configurable: true
+    });
     DataTableBodyCellComponent.prototype.ngDoCheck = function () {
         this.checkValueUpdates();
     };
@@ -369,6 +425,16 @@ var DataTableBodyCellComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [])
     ], DataTableBodyCellComponent.prototype, "height", null);
     __decorate([
+        core_1.HostBinding('style.color'),
+        __metadata("design:type", Object),
+        __metadata("design:paramtypes", [])
+    ], DataTableBodyCellComponent.prototype, "color", null);
+    __decorate([
+        core_1.HostBinding('style.backgroundColor'),
+        __metadata("design:type", Object),
+        __metadata("design:paramtypes", [])
+    ], DataTableBodyCellComponent.prototype, "backgroundColor", null);
+    __decorate([
         core_1.HostListener('focus'),
         __metadata("design:type", Function),
         __metadata("design:paramtypes", []),
@@ -402,7 +468,7 @@ var DataTableBodyCellComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'datatable-body-cell',
             changeDetection: core_1.ChangeDetectionStrategy.OnPush,
-            template: "\n    <div class=\"datatable-body-cell-label\">\n      <label\n        *ngIf=\"column.checkboxable && (!displayCheck || displayCheck(row, column, value))\"\n        class=\"datatable-checkbox\">\n        <input\n          type=\"checkbox\"\n          [checked]=\"isSelected\"\n          (click)=\"onCheckboxChange($event)\"\n        />\n      </label>\n      <span\n        *ngIf=\"!column.cellTemplate\"\n        [title]=\"sanitizedValue\"\n        [innerHTML]=\"value\">\n      </span>\n      <ng-template #cellTemplate\n        *ngIf=\"column.cellTemplate\"\n        [ngTemplateOutlet]=\"column.cellTemplate\"\n        [ngTemplateOutletContext]=\"cellContext\">\n      </ng-template>\n    </div>\n  "
+            template: "\n    <div class=\"datatable-body-cell-label\">\n      <label\n        *ngIf=\"column.checkboxable && (!displayCheck || displayCheck(row, column, value))\"\n        class=\"datatable-checkbox\">\n        <input\n          type=\"checkbox\"\n          [checked]=\"isSelected\"\n          (click)=\"onCheckboxChange($event)\"\n        />\n      </label>\n      <span\n        *ngIf=\"!column.cellTemplate\"\n        [title]=\"sanitizedValue\"\n        [innerHTML]=\"value\">\n      </span>\n      <ng-template #cellTemplate\n                   *ngIf=\"column.cellTemplate\"\n                   [ngTemplateOutlet]=\"column.cellTemplate\"\n                   [ngTemplateOutletContext]=\"cellContext\">\n      </ng-template>\n    </div>\n  "
         }),
         __metadata("design:paramtypes", [core_1.ElementRef, core_1.ChangeDetectorRef])
     ], DataTableBodyCellComponent);

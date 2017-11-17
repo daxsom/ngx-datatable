@@ -166,6 +166,20 @@ export interface TableColumn {
      */
     cellClass?: string | ((data: any) => string | any);
     /**
+     * Color for the cell
+     *
+     *
+     * @memberOf TableColumn
+     */
+    cellColor?: string | ((data: any) => string | any);
+    /**
+     * Background Color for the cell
+     *
+     *
+     * @memberOf TableColumn
+     */
+    cellColorBG?: string | ((data: any) => string | any);
+    /**
      * CSS classes for the header
      *
      *

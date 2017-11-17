@@ -4,10 +4,10 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core';
 
-import { Keys } from '../../utils';
-import { SortDirection } from '../../types';
-import { TableColumn } from '../../types/table-column.type';
-import { MouseEvent, KeyboardEvent } from '../../events';
+import {Keys} from '../../utils';
+import {SortDirection} from '../../types';
+import {TableColumn} from '../../types/table-column.type';
+import {MouseEvent, KeyboardEvent} from '../../events';
 
 @Component({
   selector: 'datatable-body-cell',
@@ -29,9 +29,9 @@ import { MouseEvent, KeyboardEvent } from '../../events';
         [innerHTML]="value">
       </span>
       <ng-template #cellTemplate
-        *ngIf="column.cellTemplate"
-        [ngTemplateOutlet]="column.cellTemplate"
-        [ngTemplateOutletContext]="cellContext">
+                   *ngIf="column.cellTemplate"
+                   [ngTemplateOutlet]="column.cellTemplate"
+                   [ngTemplateOutletContext]="cellContext">
       </ng-template>
     </div>
   `
@@ -43,7 +43,7 @@ export class DataTableBodyCellComponent implements DoCheck, OnDestroy {
     this._group = group;
     this.cellContext.group = group;
     this.checkValueUpdates();
-    this.cd.markForCheck();    
+    this.cd.markForCheck();
   }
 
   get group() {
@@ -54,7 +54,7 @@ export class DataTableBodyCellComponent implements DoCheck, OnDestroy {
     this._rowHeight = val;
     this.cellContext.rowHeight = val;
     this.checkValueUpdates();
-    this.cd.markForCheck();        
+    this.cd.markForCheck();
   }
 
   get rowHeight() {
@@ -70,7 +70,7 @@ export class DataTableBodyCellComponent implements DoCheck, OnDestroy {
   get isSelected(): boolean {
     return this._isSelected;
   }
-  
+
   @Input() set expanded(val: boolean) {
     this._expanded = val;
     this.cellContext.expanded = val;
@@ -125,20 +125,20 @@ export class DataTableBodyCellComponent implements DoCheck, OnDestroy {
 
   @Output() activate: EventEmitter<any> = new EventEmitter();
 
-  @ViewChild('cellTemplate', { read: ViewContainerRef }) cellTemplate: ViewContainerRef;
+  @ViewChild('cellTemplate', {read: ViewContainerRef}) cellTemplate: ViewContainerRef;
 
   @HostBinding('class')
-  get columnCssClasses(): any {    
+  get columnCssClasses(): any {
     let cls = 'datatable-body-cell';
     if (this.column.cellClass) {
       if (typeof this.column.cellClass === 'string') {
         cls += ' ' + this.column.cellClass;
-      } else if(typeof this.column.cellClass === 'function') {
-        const res = this.column.cellClass({ 
-          row: this.row, 
-          group: this.group, 
-          column: this.column, 
-          value: this.value ,
+      } else if (typeof this.column.cellClass === 'function') {
+        const res = this.column.cellClass({
+          row: this.row,
+          group: this.group,
+          column: this.column,
+          value: this.value,
           rowHeight: this.rowHeight
         });
 
@@ -170,6 +170,60 @@ export class DataTableBodyCellComponent implements DoCheck, OnDestroy {
     const height = this.rowHeight;
     if (isNaN(height)) return height;
     return height + 'px';
+  }
+
+  @HostBinding('style.color')
+  get color() {
+    /*
+     {
+     color: 'red',
+     test: true
+     }
+     */
+    let color = '';
+    if (typeof this.column.cellColor === 'function') {
+      const res = this.column.cellColor({
+        row: this.row,
+        group: this.group,
+        column: this.column,
+        value: this.value,
+        rowHeight: this.rowHeight
+      });
+
+      if (typeof res === 'object') {
+        if (res.test) {
+          color = res.color;
+        }
+      }
+    }
+    return color;
+  }
+
+  @HostBinding('style.backgroundColor')
+  get backgroundColor() {
+    /*
+     {
+     color: 'red',
+     test: true
+     }
+     */
+    let color = '';
+    if (typeof this.column.cellColorBG === 'function') {
+      const res = this.column.cellColorBG({
+        row: this.row,
+        group: this.group,
+        column: this.column,
+        value: this.value,
+        rowHeight: this.rowHeight
+      });
+
+      if (typeof res === 'object') {
+        if (res.test) {
+          color = res.color;
+        }
+      }
+    }
+    return color;
   }
 
   sanitizedValue: any;
@@ -204,7 +258,7 @@ export class DataTableBodyCellComponent implements DoCheck, OnDestroy {
   constructor(element: ElementRef, private cd: ChangeDetectorRef) {
     this._element = element.nativeElement;
   }
-  
+
   ngDoCheck(): void {
     this.checkValueUpdates();
   }
@@ -231,7 +285,7 @@ export class DataTableBodyCellComponent implements DoCheck, OnDestroy {
       }
     }
 
-    if(this.value !== value) {
+    if (this.value !== value) {
       this.value = value;
       this.cellContext.value = value;
       this.sanitizedValue = value !== null && value !== undefined ? this.stripHtml(value) : value;
@@ -272,7 +326,7 @@ export class DataTableBodyCellComponent implements DoCheck, OnDestroy {
       group: this.group,
       rowHeight: this.rowHeight,
       column: this.column,
-      value: this.value,      
+      value: this.value,
       cellElement: this._element
     });
   }
@@ -330,7 +384,7 @@ export class DataTableBodyCellComponent implements DoCheck, OnDestroy {
   }
 
   stripHtml(html: string): string {
-    if(!html.replace) return html;
+    if (!html.replace) return html;
     return html.replace(/<\/?[^>]+(>|$)/g, '');
   }
 

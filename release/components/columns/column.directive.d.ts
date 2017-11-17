@@ -19,6 +19,8 @@ export declare class DataTableColumnDirective {
     headerCheckboxable: boolean;
     headerClass: string | ((data: any) => string | any);
     cellClass: string | ((data: any) => string | any);
+    cellColor: string | ((data: any) => string | any);
+    cellColorBG: string | ((data: any) => string | any);
     cellTemplate: TemplateRef<any>;
     headerTemplate: TemplateRef<any>;
 }

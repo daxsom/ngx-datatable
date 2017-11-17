@@ -24,6 +24,8 @@ export class DataTableColumnDirective {
   @Input() headerCheckboxable: boolean;
   @Input() headerClass: string | ((data: any) => string|any);
   @Input() cellClass: string | ((data: any) => string|any);
+  @Input() cellColor: string | ((data: any) => string|any);
+  @Input() cellColorBG: string | ((data: any) => string|any);
 
   @Input()
   @ContentChild(DataTableColumnCellDirective, { read: TemplateRef }) 
@@ -32,5 +34,4 @@ export class DataTableColumnDirective {
   @Input()
   @ContentChild(DataTableColumnHeaderDirective, { read: TemplateRef }) 
   headerTemplate: TemplateRef<any>;
-
 }
